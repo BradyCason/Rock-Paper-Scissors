@@ -50,6 +50,24 @@ function playRound(playerSelection, computerSelection){
     return 'Please Input "Rock", "Paper", or "Scissors"'
 }
 
+function updateResultsUI(resultText){
+    resultDiv.children[0].textContent = resultText
+
+    resultDiv.children[1].textContent = "Player Score: " + playerScore.toString()
+    resultDiv.children[2].textContent = "Computer Score: " + computerScore.toString()
+
+    if (playerScore >= 3){
+        resultDiv.children[0].textContent = "Game Over. You win!"
+        playerScore = 0
+        computerScore = 0
+    }
+    else if (computerScore >= 3){
+        resultDiv.children[0].textContent = "Game Over. You lose!"
+        playerScore = 0
+        computerScore = 0
+    }
+}
+
 function playGame(){
     console.log("Playing Best of 3 Rock-Paper-Scissors.")
     let playerScore = 0
@@ -77,4 +95,22 @@ function playGame(){
     }
 }
 
-playGame()
+const resultDiv = document.querySelector(".results");
+let playerScore = 0
+let computerScore = 0
+
+// Add Event listeners to buttons
+const btns = document.querySelectorAll(".playerChoice");
+btns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        resultText = playRound(btn.textContent, getComputerChoice())
+        if (resultText[4] == "w"){
+            playerScore++
+        }
+        else if (resultText[4] == "l"){
+            computerScore++
+        }
+
+        updateResultsUI(resultText)
+    })
+})
